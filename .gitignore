@@ -1,0 +1,10 @@
+/vendor/
+/runtime/
+/web/assets/
+/.env
+.idea/
+.vscode/
+*.log
+.DS_Store
+phpunit.xml.bak
+.phpunit.cache/
