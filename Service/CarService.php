@@ -17,7 +17,7 @@ final class CarService implements CarServiceInterface
 
     public function __construct(
         private readonly CarRepositoryInterface $carRepository,
-        private readonly int $pageSize = 10,
+        private readonly int $defaultPageSize = 10,
     ) {
     }
 
@@ -41,16 +41,17 @@ final class CarService implements CarServiceInterface
         return $car;
     }
 
-    public function getList(int $page): array
+    public function getList(int $page, ?int $pageSize = null): array
     {
         $page = max(1, $page);
+        $pageSize = max(1, $pageSize ?? $this->defaultPageSize);
         $total = $this->carRepository->countAll();
-        $totalPages = $total === 0 ? 0 : (int) ceil($total / $this->pageSize);
+        $totalPages = $total === 0 ? 0 : (int) ceil($total / $pageSize);
 
         return [
-            'items' => $this->carRepository->findAll($page, $this->pageSize),
+            'items' => $this->carRepository->findAll($page, $pageSize),
             'page' => $page,
-            'page_size' => $this->pageSize,
+            'page_size' => $pageSize,
             'total' => $total,
             'total_pages' => $totalPages,
         ];

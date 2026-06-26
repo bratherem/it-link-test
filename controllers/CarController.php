@@ -58,7 +58,9 @@ final class CarController extends Controller
     public function actionList(): array
     {
         $page = (int) $this->request->get('page', 1);
-        $result = $this->carService->getList($page);
+        $pageSizeParam = $this->request->get('page_size');
+        $pageSize = $pageSizeParam === null || $pageSizeParam === '' ? null : (int) $pageSizeParam;
+        $result = $this->carService->getList($page, $pageSize);
 
         return [
             'items' => array_map(static fn ($car) => $car->toArray(), $result['items']),

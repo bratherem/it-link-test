@@ -100,8 +100,12 @@ curl http://localhost:8080/car/1
 Возвращает список объявлений с пагинацией.
 
 ```bash
-curl "http://localhost:8080/car/list?page=1"
+curl "http://localhost:8080/car/list?page=1&page_size=10"
 ```
+
+Параметры:
+- `page` — номер страницы (по умолчанию `1`)
+- `page_size` — количество записей на странице (по умолчанию `10`)
 
 ## Миграции
 

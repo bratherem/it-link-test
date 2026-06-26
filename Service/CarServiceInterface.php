@@ -19,5 +19,5 @@ interface CarServiceInterface
   /**
    * @return array{items: Car[], page: int, page_size: int, total: int, total_pages: int}
    */
-    public function getList(int $page): array;
+    public function getList(int $page, ?int $pageSize = null): array;
 }

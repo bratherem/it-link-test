@@ -148,6 +148,36 @@ final class CarServiceTest extends TestCase
         ]);
     }
 
+    public function testGetListUsesDefaultPageSize(): void
+    {
+        $this->repository->expects($this->once())->method('countAll')->willReturn(25);
+        $this->repository
+            ->expects($this->once())
+            ->method('findAll')
+            ->with(1, 10)
+            ->willReturn([]);
+
+        $result = $this->service->getList(1);
+
+        $this->assertSame(10, $result['page_size']);
+        $this->assertSame(3, $result['total_pages']);
+    }
+
+    public function testGetListUsesCustomPageSize(): void
+    {
+        $this->repository->expects($this->once())->method('countAll')->willReturn(25);
+        $this->repository
+            ->expects($this->once())
+            ->method('findAll')
+            ->with(2, 5)
+            ->willReturn([]);
+
+        $result = $this->service->getList(2, 5);
+
+        $this->assertSame(5, $result['page_size']);
+        $this->assertSame(5, $result['total_pages']);
+    }
+
     public function testCreateValidationFailsWhenOptionFieldMissing(): void
     {
         $this->repository->expects($this->never())->method('save');
